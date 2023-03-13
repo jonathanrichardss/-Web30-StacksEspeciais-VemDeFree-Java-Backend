@@ -1,6 +1,8 @@
 package com.vemde.free.services;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,15 +15,15 @@ import com.vemde.free.repositories.UserRepository;
 public class UserService {
 	
 
-	private final UserRepository repository;
+	private final UserRepository repo;
 	
 	@Autowired
 	public UserService(UserRepository userRepository) {
-		this.repository= userRepository;
+		this.repo = userRepository;
 	}
 	
 	
-	public void createNewUser(UserDto dto) {
+	public UserDto create(UserDto dto) {
 		
 		UserEntity entity = new UserEntity();
 		entity.setId(dto.getId());
@@ -35,16 +37,42 @@ public class UserService {
 		entity.setIsActive(dto.getIsActive());
 		entity.setEmail(dto.getEmail());
 		
-		if (repository.findById(entity.getId()).isPresent()) {
-			throw new IllegalArgumentException("Usuário já cadastrado");
-		} else {
-			repository.save(entity);
-		}
+//		if (repo.findById(entity.getId()).isPresent()) {
+//			throw new IllegalArgumentException("Usuário já cadastrado");
+//		} else {
+		
+		repo.save(entity);
+		
+		return dto;
 		
 	}
 	
 	public List<UserEntity> getAllUsers() {
-		return repository.findAll();
+		return repo.findAll();
+	}
+	
+	public UserEntity getByUserByEmailAndSecret(String email, String password) throws IllegalAccessException {
+		
+		var user = repo.findByEmailAndPassword(email, password);
+	
+		if (user != null) {
+			return user;
+		} else {
+			throw new IllegalArgumentException("Usuário não encontrado");
+		}
+	
+	}
+	
+	public Optional<UserEntity> getById(UUID id) {
+		
+		var user = repo.findById(id);
+		
+		return user;
 	}
 
+
+	public void deleteById(UUID userId) {
+		// TODO Auto-generated method stub
+		repo.deleteById(userId);
+	}
 }

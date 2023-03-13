@@ -12,11 +12,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class JobApplicationDto {
 	
-
 	private UUID id;	
 	private UserDto user;
 	private CardJobDto cardJob;
 	private LocalDateTime applicationDate;
 	private String estimatedTime;
-
+	
 }

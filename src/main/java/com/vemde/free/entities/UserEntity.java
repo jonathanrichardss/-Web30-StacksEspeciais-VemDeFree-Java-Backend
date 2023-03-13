@@ -4,9 +4,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -47,8 +49,8 @@ public class UserEntity {
 	@Column(name = "is_active")
 	private Boolean isActive;
 	
-	@OneToMany
-	@Column(name = "user_applications", nullable = true)
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_application_id")
 	private List<JobApplicationEntity> applications;
 	
 }

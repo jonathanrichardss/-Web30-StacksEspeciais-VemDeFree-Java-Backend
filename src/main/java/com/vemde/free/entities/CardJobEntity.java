@@ -1,20 +1,25 @@
 package com.vemde.free.entities;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Data;
 
-
+@Data
 @Entity
 @Table(name = "tb_card_job")
 public class CardJobEntity {
 	
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", unique = true, nullable = false)
 	private UUID id;
 	
@@ -27,66 +32,16 @@ public class CardJobEntity {
 	@Column(name = "required_experience")
 	private String requiredExperience;
 	
+	@Column(name = "company")
+	private String companyName;
+	
 	@Column(name = "date_of_issue")
 	private LocalDate issueDate;
 	
 	@Column(name = "time_job" )
 	private LocalDate timeJob;
 	
-//	@Column(name = "payment_value", nullable = false)
-//	private Integer paymentValue;
-
-	
-
-	public String getTitle() {
-		return title;
-	}
-
-	public UUID getId() {
-		return id;
-	}
-
-	public void setId(UUID id) {
-		this.id = id;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getRequiredExperience() {
-		return requiredExperience;
-	}
-
-	public void setRequiredExperience(String requiredExperience) {
-		this.requiredExperience = requiredExperience;
-	}
-
-	public LocalDate getIssueDate() {
-		return issueDate;
-	}
-
-	public void setIssueDate(LocalDate issueDate) {
-		this.issueDate = issueDate;
-	}
-
-	public LocalDate getTimeJob() {
-		return timeJob;
-	}
-
-	public void setTimeJob(LocalDate timeJob) {
-		this.timeJob = timeJob;
-	}
-
-
-	
+	@Column(name = "payment_value", nullable = false)
+	private BigDecimal paymentValue;
 	
 }

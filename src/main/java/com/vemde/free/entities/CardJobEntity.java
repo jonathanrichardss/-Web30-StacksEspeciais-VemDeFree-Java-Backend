@@ -35,6 +35,9 @@ public class CardJobEntity {
 	@Column(name = "company")
 	private String companyName;
 	
+	@Column(name = "city")
+	private String city;
+	
 	@Column(name = "date_of_issue")
 	private LocalDate issueDate;
 	

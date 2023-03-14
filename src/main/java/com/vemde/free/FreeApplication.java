@@ -6,6 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class FreeApplication {
 
+	public String PORT = System.getenv("PORT");
+	
+	
 	public static void main(String[] args) {
 		var teste = "Teste";
 	

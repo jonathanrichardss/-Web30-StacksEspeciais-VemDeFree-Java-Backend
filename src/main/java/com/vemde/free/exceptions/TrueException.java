@@ -1,13 +1,13 @@
 package com.vemde.free.exceptions;
 
-public class NegocioException extends RuntimeException {
+public class TrueException extends RuntimeException {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	public NegocioException(String message) {
+	public TrueException(String message) {
 		super(message);
 	}
 	

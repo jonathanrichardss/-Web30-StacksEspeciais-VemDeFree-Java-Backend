@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vemde.free.dtos.UserDto;
 import com.vemde.free.entities.UserEntity;
+import com.vemde.free.exceptions.TrueException;
 import com.vemde.free.services.UserService;
 
 
@@ -69,6 +70,7 @@ public class UserController {
 		
 		try {
 		UserEntity validatedUser = service.getByUserByEmailAndSecret(newUser.getEmail(), newUser.getPassword());
+		newUser.setId(validatedUser.getId());
 		newUser.setName(validatedUser.getName());
 		newUser.setAddress(validatedUser.getAddress());
 		newUser.setBirthYear(validatedUser.getBirthYear());
@@ -82,6 +84,19 @@ public class UserController {
 		}
 		
 		return ResponseEntity.ok(newUser);
+	}
+	
+	
+	@PostMapping("/validate/{token}")
+	public ResponseEntity<UserEntity> validateUser(@PathVariable ("token") String token) {
+		
+		var user = service.getById(UUID.fromString(token));
+		
+		if (user.isEmpty()) {
+			throw new TrueException("Usuário não é válido");
+		}
+		
+		return ResponseEntity.ok(user.get());
 	}
 	
 	

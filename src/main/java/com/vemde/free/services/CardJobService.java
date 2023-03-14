@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.vemde.free.dtos.CardJobDto;
 import com.vemde.free.entities.CardJobEntity;
-import com.vemde.free.exceptions.NegocioException;
+import com.vemde.free.exceptions.TrueException;
 import com.vemde.free.repositories.JobCardRepository;
 
 @Service
@@ -34,6 +34,8 @@ public class CardJobService {
 		entity.setTitle(dto.getTitle());
 		entity.setDescription(dto.getDescription());
 		entity.setRequiredExperience(dto.getRequiredExperience());
+		entity.setCompanyName(dto.getCompanyName());
+		entity.setCity(dto.getCity());
 		entity.setIssueDate(dto.getIssueDate());
 		entity.setTimeJob(dto.getTimeJob());
 		entity.setPaymentValue(dto.getPaymentValue());
@@ -76,7 +78,7 @@ public class CardJobService {
 		boolean existsById = repo.existsById(id);
 		
 		if (!existsById) {
-			throw new NegocioException("Job não encontrado ou inexistente");
+			throw new TrueException("Job não encontrado ou inexistente");
 		}
 		
 		repo.deleteById(id);

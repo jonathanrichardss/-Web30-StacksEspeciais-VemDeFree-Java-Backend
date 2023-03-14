@@ -11,7 +11,7 @@ import com.vemde.free.dtos.JobApplicationDto;
 import com.vemde.free.entities.CardJobEntity;
 import com.vemde.free.entities.JobApplicationEntity;
 import com.vemde.free.entities.UserEntity;
-import com.vemde.free.exceptions.NegocioException;
+import com.vemde.free.exceptions.TrueException;
 import com.vemde.free.repositories.JobApplicationRepository;
 import com.vemde.free.repositories.JobCardRepository;
 import com.vemde.free.repositories.UserRepository;
@@ -49,11 +49,11 @@ public class JobApplicationService {
 		var cardJobById = cardRepository.findById(dto.getCardJob().getId());
 		
 		if(!userById.isPresent()) {
-			throw new NegocioException("O usuário informado não existe/não foi encontrado.");
+			throw new TrueException("O usuário informado não existe/não foi encontrado.");
 		}
 		
 		if(!cardJobById.isPresent()) {
-			throw new NegocioException("O job informado não existe/não foi encontrado.");
+			throw new TrueException("O job informado não existe/não foi encontrado.");
 		}
 		
 		entity.setUser(userById.get());
@@ -90,7 +90,7 @@ public class JobApplicationService {
 		boolean existsById = repository.existsById(jobApplyId);
 		
 		if (!existsById) {
-			throw new NegocioException("Job não encontrado ou inexistente");
+			throw new TrueException("Job não encontrado ou inexistente");
 		}
 		
 		repository.deleteById(jobApplyId);

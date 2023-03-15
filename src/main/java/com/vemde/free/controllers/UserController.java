@@ -1,5 +1,7 @@
 package com.vemde.free.controllers;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.vemde.free.dtos.UserDto;
 import com.vemde.free.entities.UserEntity;
 import com.vemde.free.exceptions.TrueException;
+import com.vemde.free.services.AuthService;
 import com.vemde.free.services.UserService;
 
 
@@ -40,13 +43,13 @@ public class UserController {
 	
 	@PostMapping("/create")
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public UserDto create(@RequestBody UserDto dto) {
+	public UserDto create(@RequestBody UserDto dto) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 				
 		return service.create(dto);
 	}
 	
 	@PutMapping("/update/{userId}")
-	public ResponseEntity<UserDto> update(@RequestBody UserDto dto, @PathVariable UUID userId) {
+	public ResponseEntity<UserDto> update(@RequestBody UserDto dto, @PathVariable UUID userId) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		
 		var existsById = service.getById(userId);
 		
@@ -61,7 +64,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/signin")
-	public ResponseEntity<UserDto> validateUser(@RequestBody UserDto dto) {
+	public ResponseEntity<UserDto> validateUser(@RequestBody UserDto dto) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		
 		UserDto newUser =  new UserDto();
 		
@@ -69,7 +72,7 @@ public class UserController {
 		newUser.setPassword(dto.getPassword());
 		
 		try {
-		UserEntity validatedUser = service.getByUserByEmailAndSecret(newUser.getEmail(), newUser.getPassword());
+		UserEntity validatedUser = service.getByUserByEmailAndSecret(newUser.getEmail(), AuthService.makeASecret(newUser.getPassword()));
 		newUser.setId(validatedUser.getId());
 		newUser.setName(validatedUser.getName());
 		newUser.setAddress(validatedUser.getAddress());

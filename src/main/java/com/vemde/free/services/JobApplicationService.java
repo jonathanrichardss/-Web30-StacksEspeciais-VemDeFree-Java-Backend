@@ -81,12 +81,10 @@ public class JobApplicationService {
 	}
 
 	public Optional<JobApplicationEntity> getById(UUID id) {
-		// TODO Auto-generated method stub
 		return repository.findById(id);
 	}
 
 	public void deleteById(UUID jobApplyId) {
-		// TODO Auto-generated method stub
 		boolean existsById = repository.existsById(jobApplyId);
 		
 		if (!existsById) {

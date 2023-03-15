@@ -30,7 +30,7 @@ public class CardJobService {
 		// TODO Auto-generated method stub
 		
 		CardJobEntity entity = new CardJobEntity() ;
-		entity.setId(dto.getId());
+		entity.setId(UUID.randomUUID());
 		entity.setTitle(dto.getTitle());
 		entity.setDescription(dto.getDescription());
 		entity.setRequiredExperience(dto.getRequiredExperience());
@@ -47,8 +47,6 @@ public class CardJobService {
 	
 	
 	public void update(CardJobDto dto) {
-		
-		//CardJobEntity entity = new CardJobEntity();
 		var existsById = repo.findById(dto.getId());
 		
 		if (!existsById.isPresent()) {
@@ -74,7 +72,6 @@ public class CardJobService {
 
 
 	public void deleteById(UUID id) {
-		// TODO Auto-generated method stub
 		boolean existsById = repo.existsById(id);
 		
 		if (!existsById) {

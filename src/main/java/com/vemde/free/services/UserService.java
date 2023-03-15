@@ -1,5 +1,7 @@
 package com.vemde.free.services;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -16,14 +18,16 @@ public class UserService {
 	
 
 	private final UserRepository repo;
+	private final AuthService authService;
 	
 	@Autowired
-	public UserService(UserRepository userRepository) {
+	public UserService(UserRepository userRepository, AuthService authService) {
 		this.repo = userRepository;
+		this.authService = authService;
 	}
 	
 	
-	public UserDto create(UserDto dto) {
+	public UserDto create(UserDto dto) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		
 		UserEntity entity = new UserEntity();
 		entity.setId(dto.getId());
@@ -32,14 +36,10 @@ public class UserService {
 		entity.setGender(dto.getGender());
 		entity.setIdProfile(dto.getIdProfile());
 		entity.setNrCpfCnpj(dto.getNrCpfCnpj());
-		entity.setPassword(dto.getPassword());
+		entity.setPassword(authService.makeASecret(dto.getPassword()));
 		entity.setBirthYear(dto.getBirthYear());
 		entity.setIsActive(dto.getIsActive());
 		entity.setEmail(dto.getEmail());
-		
-//		if (repo.findById(entity.getId()).isPresent()) {
-//			throw new IllegalArgumentException("Usuário já cadastrado");
-//		} else {
 		
 		repo.save(entity);
 		
@@ -72,7 +72,6 @@ public class UserService {
 
 
 	public void deleteById(UUID userId) {
-		// TODO Auto-generated method stub
 		repo.deleteById(userId);
 	}
 }
